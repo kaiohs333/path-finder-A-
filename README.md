@@ -39,3 +39,52 @@ O código fornecido no `pathfinder.py` implementa o A* considerando os requisito
 O enunciado do trabalho sugere a "Distância de Manhattan", que é ideal para movimentos em 4 direções (cima, baixo, esquerda, direita).
 
 No entanto, como nossa implementação inclui o ponto extra de **movimento diagonal** (8 direções), utilizámos uma heurística mais adequada: a **Distância Diagonal (ou Octile)**. Esta calcula o custo considerando movimentos retos (custo 1) e diagonais (custo $\sqrt{2}$), como implementado na função `heuristic` do `pathfinder.py`.
+
+```python
+def heuristic(a, b):
+    """
+    Calcula a distância heurística.
+    Usa a Distância Diagonal (Octile) para 8 direções.
+    """
+    (r1, c1) = a
+    (r2, c2) = b
+    
+    dr = abs(r1 - r2)
+    dc = abs(c1 - c2)
+    
+    # Custo reto = 1
+    # Custo diagonal = sqrt(2)
+    # Fórmula: (custo reto) * (total de passos - passos diagonais) + (custo diagonal) * (passos diagonais)
+    # Simplifica para: (custo reto) * (passos retos) + (custo diagonal) * (passos diagonais)
+    
+    D = 1
+    D2 = math.sqrt(2)
+    return D * (max(dr, dc) - min(dr, dc)) + D2 * min(dr, dc)
+```
+
+### 2. Custos de Movimento e Terreno
+
+A implementação considera dois tipos de custo que se multiplicam para definir o custo real de um passo, conforme visto nas funções `get_neighbors` e `get_terrain_cost` do `pathfinder.py`:
+
+`Custo de Movimento (get_neighbors)`: O custo para se mover para uma célula vizinha. É 1 para movimentos retos e sqrt(2) para diagonais.
+
+`Custo de Terreno (get_terrain_cost)`: O custo intrínseco de entrar numa célula. Células 'S', 'E' e '0' têm custo 1 (terreno normal). Outros números (como 5 no exemplo) representam terreno difícil.
+
+```python
+def get_neighbors(maze, node):
+    # ... (definição de movimentos e custos) ...
+    moves = [
+        (-1, 0, 1), (1, 0, 1), (0, -1, 1), (0, 1, 1),  # Retos (custo 1)
+        (-1, -1, math.sqrt(2)), (-1, 1, math.sqrt(2)),  # Diagonais (custo sqrt(2))
+        (1, -1, math.sqrt(2)), (1, 1, math.sqrt(2))
+    ]
+    # ... (lógica para encontrar vizinhos válidos) ...
+
+def get_terrain_cost(cell_value):
+    if cell_value in ('S', 'E', 0):
+        return 1  # Custo de terreno normal
+    if isinstance(cell_value, int):
+        return cell_value  # Custo do terreno (ex: 5)
+    return float('inf')
+```
+
