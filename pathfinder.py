@@ -131,6 +131,53 @@ def a_star_search(maze, start, end):
     # Se o loop terminar e não encontramos o fim
     print("Sem solução: Não foi possível encontrar um caminho.")
     return None, None    
+
+# Exibição dos resultados
+def reconstruct_path(came_from, current):
+    """
+    Reconstrói o caminho do fim para o início usando o dicionário came_from.
+    
+    Argumentos:
+        came_from (dict): Dicionário {nó: nó_anterior}
+        current (tuple): O nó final ('E')
+        
+    Retorna:
+        list: A lista de coordenadas [(linha, coluna), ...] do início ao fim.
+    """
+    path = []
+    while current in came_from:
+        path.append(current)
+        current = came_from[current]
+        if current is None: # Chegamos ao início
+            break
+            
+    # O caminho está de trás para frente (Fim -> Início), então invertemos
+    return path[::-1]
+
+def display_maze_with_path(maze, path, start, end):
+    """
+    Exibe o labirinto com o caminho destacado ('*').
+    
+    Argumentos:
+        maze (list[list]): O labirinto original.
+        path (list): A lista de coordenadas do caminho.
+        start (tuple): Coordenadas de 'S'.
+        end (tuple): Coordenadas de 'E'.
+    """
+    # Cria uma cópia do labirinto para não modificar o original
+    # Converte tudo para string para facilitar a impressão
+    display_maze = [list(map(str, row)) for row in maze]
+    
+    # Itera pelo caminho e marca com '*'
+    for (r, c) in path:
+        # Não sobrescreve 'S' e 'E'
+        if (r, c) != start and (r, c) != end:
+            display_maze[r][c] = '*'
+            
+    print("\nLabirinto com o caminho destacado:")
+    for row in display_maze:
+        print(" ".join(row))
+
 # --- Execução Principal (para testar a Etapa 1) ---
 if __name__ == "__main__":
     
@@ -177,3 +224,16 @@ if __name__ == "__main__":
         print("Resultado do A*: Sucesso!!")
     else: print("Resultado do A*: Falha :(")
     
+    # 4. Executa a Tarefa 4 (NOVO)
+    if path_data:
+        print("Caminho encontrado!")
+            
+        # Reconstrói e exibe a lista de coordenadas
+        caminho_final = reconstruct_path(path_data, end_point)
+        print("\nMenor caminho (em coordenadas):")
+        print(caminho_final)
+            
+        # Exibe o labirinto destacado
+        display_maze_with_path(labirinto_exemplo, caminho_final, start_node, end_node)
+    else:
+        print(f"\nSem solução: Não foi possível encontrar um caminho de 'S' para 'E'.")    
