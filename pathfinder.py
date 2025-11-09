@@ -20,12 +20,26 @@ def find_start_and_end(maze):
             elif cell == 'E':
                 end = (r_idx, c_idx)
             
-            # Otimização: se já encontramos os dois, podemos parar
             if start and end:
                 return start, end
                 
-    # Se o loop terminar e não tivermos encontrado os dois
     return start, end
+
+#-- Definição da heuristica --
+def heuristic(a, b):
+    """ Calcula a distância de Manhattan entre dois pontos (r1, c1) e (r2, c2).
+    h(n) = |x_atual - x_final| + |y_atual - y_final|
+    
+    Argumentos:
+        a (tuple): O primeiro ponto (linha1, coluna1).
+        b (tuple): O segundo ponto (linha2, coluna2).
+        
+    Retorna:
+        int: A distância de Manhattan. """
+        
+    (r1, c1) = a
+    (r2, c2) = b
+    return abs(r1 - r2) + abs(c1 - c2)
 
 # --- Execução Principal (para testar a Etapa 1) ---
 if __name__ == "__main__":
@@ -38,7 +52,7 @@ if __name__ == "__main__":
         [1, 0, 0, 'E', 1]
     ]
 
-    print("--- PathFinder A* - Etapa 1 ---")
+    print("--- PathFinder A* ---")
     print("Labirinto de Entrada:")
     for row in labirinto_exemplo:
         print(" ".join(map(str, row)))
@@ -51,3 +65,14 @@ if __name__ == "__main__":
     else:
         print(f"\nInício 'S' encontrado em: {start_node}")
         print(f"Fim 'E' encontrado em: {end_node}")
+        
+    # 2. Testando a heurística
+    print("\nPath Finder A* - Testando a Heurística de Manhattan")
+    distanciaEstimada = heuristic(start_node, end_node)
+    print(f"Distância estimada (heurística) entre 'S' e 'E': {distanciaEstimada}")
+    
+    # Teste com outros pontos
+    ponto1 = (1,5)
+    ponto2 = (3,7)
+    distanciaTeste = heuristic(ponto1, ponto2)
+    print(f"Distancia de Manhattan entre {ponto1} e {ponto2}: {distanciaTeste}")
