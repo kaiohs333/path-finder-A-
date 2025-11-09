@@ -1,5 +1,5 @@
 import heapq
-
+import math
 
 def find_start_and_end(maze):
     """
@@ -30,107 +30,114 @@ def find_start_and_end(maze):
 
 #-- Definição da heuristica --
 def heuristic(a, b):
-    """ Calcula a distância de Manhattan entre dois pontos (r1, c1) e (r2, c2).
-    h(n) = |x_atual - x_final| + |y_atual - y_final|
-    
-    Argumentos:
-        a (tuple): O primeiro ponto (linha1, coluna1).
-        b (tuple): O segundo ponto (linha2, coluna2).
-        
-    Retorna:
-        int: A distância de Manhattan. """
-        
+    """
+    Calcula a distância heurística.
+    Usa a Distância Diagonal (Octile) para 8 direções.
+    """
     (r1, c1) = a
     (r2, c2) = b
-    return abs(r1 - r2) + abs(c1 - c2)
+    
+    dr = abs(r1 - r2)
+    dc = abs(c1 - c2)
+    
+    # Custo reto = 1
+    # Custo diagonal = sqrt(2)
+    # Fórmula: (custo reto) * (total de passos - passos diagonais) + (custo diagonal) * (passos diagonais)
+    # Simplifica para: (custo reto) * (passos retos) + (custo diagonal) * (passos diagonais)
+    
+    D = 1
+    D2 = math.sqrt(2)
+    return D * (max(dr, dc) - min(dr, dc)) + D2 * min(dr, dc)
 
 #-- Implementação do algoritimo A* --
 def get_neighbors(maze, node):
-    """ Econtra os vizinhos validos (cima, baixo, esquerda, direita) de um nó.
+    """
+    Encontra vizinhos válidos (8 direções) de um nó e o custo do MOVIMENTO.
     
-    Argumentos:
-        maze (list[list]): A matriz 2D do labirinto.
-        node (tuple): O nó atual (linha, coluna).
-        
-        Retorna:
-            list: Uma lista de nós vizinhos válidos (linha, coluna). """
-            
+    Retorna:
+        list: Uma lista de tuplas (vizinho, custo_movimento)
+              onde vizinho é (linha, coluna) e custo_movimento é 1 ou sqrt(2).
+    """
     neighbors = []
     (r, c) = node
     num_rows = len(maze)
     num_cols = len(maze[0])
     
-    # movimentos possiveis
-    moves = [(-1, 0), (1, 0), (0, -1), (0, 1)]  # cima, baixo, esquerda, direita
+    # Movimentos possíveis (reto, diagonal) e seus custos
+    # (dr, dc, custo_movimento)
+    moves = [
+        (-1, 0, 1), (1, 0, 1), (0, -1, 1), (0, 1, 1),  # Retos
+        (-1, -1, math.sqrt(2)), (-1, 1, math.sqrt(2)),  # Diagonais
+        (1, -1, math.sqrt(2)), (1, 1, math.sqrt(2))
+    ]
     
-    for dr, dc in moves:
+    for dr, dc, move_cost in moves:
         nr, nc = r + dr, c + dc
-        # Verifica se o vizinho está dentro dos limites
+        
         if 0 <= nr < num_rows and 0 <= nc < num_cols:
-            # Verifica se o vizinho não é uma parede (1)
-            if maze[nr][nc] != 1:
-                neighbors.append((nr, nc))
-    
+            if maze[nr][nc] != 1:  # 1 ainda é o único obstáculo
+                neighbors.append(((nr, nc), move_cost))
+                
     return neighbors
 
+def get_terrain_cost(cell_value):
+    """
+    Retorna o custo de um terreno com base no valor da célula.
+    'S', 'E' e 0 (livre) têm custo 1 (terreno normal).
+    Outros números (ex: 5) são terrenos difíceis.
+    """
+    if cell_value in ('S', 'E', 0):
+        return 1  # Custo de terreno normal
+    if isinstance(cell_value, int):
+        return cell_value  # Custo do terreno (ex: 5)
+    return float('inf') # Caso inesperado
+
+
+
 def a_star_search(maze, start, end):
-    """ Executa o algoritimo A* para encontrar o menor caminho do ponto start ao ponto end.
-    
-    Argumentos:
-        maze (list[list]): A matriz 2D do labirinto.
-        start (tuple): O ponto inicial (linha, coluna).
-        end (tuple): O ponto final (linha, coluna).
-        
-        Retorna: 
-        dict: o dicionario 'come-from' que reconstroi o caminho, ou None se não houver caminho."""
-    
-    # fila de prioridade (open_set): armazena (f_score, node)
-    # heapq faz com que sempre o nó com menor f_score seja extraído primeiro
+    """
+    Executa o algoritmo A* para encontrar o menor caminho.
+    """
     open_set = []
-    heapq.heappush(open_set, (0, start))
+    heapq.heappush(open_set, (0, start)) # (f_score, nó)
     
-    came_from = {}  # dicionario para reconstruir o caminho
-    
-    #g_score: custo do caminho do start até o node atual
+    came_from = {start: None}
     g_score = {start: 0}
-    # os outros nodes sao inicialmente infinitos
-    
-    # f_score é o custo total estimado (g_score + heuristica)
     f_score = {start: heuristic(start, end)}
     
-    #setamos os nodes da fila de prioridade
     open_set_hash = {start}
-    
+
     while open_set:
-        # Pega o nó na fila de prioridade com o menor f_score
-        current = heapq.heappop(open_set)[1] # Pegamos o [1] pois o [0] é o f_score
+        current = heapq.heappop(open_set)[1]
         open_set_hash.remove(current)
         
-        # Verifica se chegamos ao fim
         if current == end:
-            print("Caminho encontrado!")
-            return came_from, current
+            # Caminho encontrado! Retorna os dados para reconstrução
+            return came_from, current 
 
-        # Explora os vizinhos
-        for neighbor in get_neighbors(maze, current):
-            # custo do move é 1
-            tentative_g_score = g_score[current] + 1
+        # iteramos sobre vizinhos E o custo do movimento
+        for neighbor, move_cost in get_neighbors(maze, current):
             
-            # Se este caminho para o vizinho é melhor do que qualquer outro já visto
+            # Pega o custo do terreno do vizinho
+            terrain_cost = get_terrain_cost(maze[neighbor[0]][neighbor[1]])
+            
+            # O custo total do passo é o custo do movimento * peso do terreno
+            # (Se o terreno for 5 e o movimento for diagonal, o custo é 5 * sqrt(2))
+            step_cost = move_cost * terrain_cost
+            
+            tentative_g_score = g_score[current] + step_cost
+            
             if tentative_g_score < g_score.get(neighbor, float('inf')):
-                # Atualiza o caminho e os scores
                 came_from[neighbor] = current
                 g_score[neighbor] = tentative_g_score
                 f_score[neighbor] = tentative_g_score + heuristic(neighbor, end)
                 
-                # Se o vizinho não está na fila, adiciona
                 if neighbor not in open_set_hash:
                     heapq.heappush(open_set, (f_score[neighbor], neighbor))
                     open_set_hash.add(neighbor)
 
-    # Se o loop terminar e não encontramos o fim
-    print("Sem solução: Não foi possível encontrar um caminho.")
-    return None, None    
+    # Sem solução
+    return None, None
 
 # Exibição dos resultados
 def reconstruct_path(came_from, current):
@@ -181,11 +188,11 @@ def display_maze_with_path(maze, path, start, end):
 # --- Execução Principal (para testar a Etapa 1) ---
 if __name__ == "__main__":
     
-    # A "Entrada" é esta matriz
+    #Labirinto com terreno difícil (5)
     labirinto_exemplo = [
         ['S', 0, 1, 0, 0],
         [0, 0, 1, 0, 1],
-        [1, 0, 1, 0, 0],
+        [1, 5, 5, 5, 0], # Terreno difícil (custo 5)
         [1, 0, 0, 'E', 1]
     ]
 
@@ -236,4 +243,4 @@ if __name__ == "__main__":
         # Exibe o labirinto destacado
         display_maze_with_path(labirinto_exemplo, caminho_final, start_node, end_node)
     else:
-        print(f"\nSem solução: Não foi possível encontrar um caminho de 'S' para 'E'.")    
+        print(f"\nSem solução: Não foi possível encontrar um caminho de 'S' para 'E'.")   
