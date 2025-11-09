@@ -196,12 +196,11 @@ if __name__ == "__main__":
         [1, 0, 0, 'E', 1]
     ]
 
-    print("--- PathFinder A* ---")
-    print("Labirinto de Entrada:")
+    print("--- PathFinder A* Iniciado (com Diagonais e Pesos) ---")
     for row in labirinto_exemplo:
         print(" ".join(map(str, row)))
     
-    # 1. Executa a leitura do labirinto e encontra 'S' e 'E'
+    # 1. Executa a Tarefa 1
     start_node, end_node = find_start_and_end(labirinto_exemplo)
 
     if not start_node or not end_node:
@@ -209,38 +208,26 @@ if __name__ == "__main__":
     else:
         print(f"\nInício 'S' encontrado em: {start_node}")
         print(f"Fim 'E' encontrado em: {end_node}")
+
+        # 2. Testa a Tarefa 2 (apenas para referência)
+        distancia_estimada = heuristic(start_node, end_node)
+        # (CORREÇÃO DE TEXTO)
+        print(f"\nDistância Diagonal (heurística) de 'S' a 'E': {distancia_estimada:.2f}")
         
-    # 2. Testando a heurística
-    print("\nPath Finder A* - Testando a Heurística de Manhattan")
-    distanciaEstimada = heuristic(start_node, end_node)
-    print(f"Distância estimada (heurística) entre 'S' e 'E': {distanciaEstimada}")
-    
-    # Teste com outros pontos
-    ponto1 = (1,5)
-    ponto2 = (3,7)
-    distanciaTeste = heuristic(ponto1, ponto2)
-    print(f"Distancia de Manhattan entre {ponto1} e {ponto2}: {distanciaTeste}")
-    
-    # 3. Testando o algoritmo A*
-    print("\nPath Finder A* - Testando o Algoritmo A*")
-    print("Executando A*...")
-    
-    path_data, end_point = a_star_search(labirinto_exemplo, start_node, end_node)
-    
-    if path_data:
-        print("Resultado do A*: Sucesso!!")
-    else: print("Resultado do A*: Falha :(")
-    
-    # 4. Executa a Tarefa 4 (NOVO)
-    if path_data:
-        print("Caminho encontrado!")
+        # 3. Executa a Tarefa 3
+        print("\nExecutando A*...")
+        path_data, end_point = a_star_search(labirinto_exemplo, start_node, end_node)
+        
+        # 4. Executa a Tarefa 4 (NOVO)
+        if path_data:
+            print("Caminho encontrado!")
             
-        # Reconstrói e exibe a lista de coordenadas
-        caminho_final = reconstruct_path(path_data, end_point)
-        print("\nMenor caminho (em coordenadas):")
-        print(caminho_final)
+            # Reconstrói e exibe a lista de coordenadas
+            caminho_final = reconstruct_path(path_data, end_point)
+            print("\nMenor caminho (em coordenadas):")
+            print(caminho_final)
             
-        # Exibe o labirinto destacado
-        display_maze_with_path(labirinto_exemplo, caminho_final, start_node, end_node)
-    else:
-        print(f"\nSem solução: Não foi possível encontrar um caminho de 'S' para 'E'.")   
+            # Exibe o labirinto destacado
+            display_maze_with_path(labirinto_exemplo, caminho_final, start_node, end_node)
+        else:
+            print(f"\nSem solução: Não foi possível encontrar um caminho de 'S' para 'E'.")
