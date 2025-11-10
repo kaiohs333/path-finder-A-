@@ -200,7 +200,7 @@ python pathfinder.py
  
 Esta secção ilustra o funcionamento do projeto 11usando o labirinto definido em` pathfinder.py`, que inclui terreno difícil (custo 5)
 
-**Entrada**
+#### **Entrada**
 
 O labirinto é definido internamente no código:
 ```Python
@@ -212,11 +212,11 @@ labirinto_exemplo = [
 ]
 ```
 
-**Saída no Terminal**
+#### **Saída no Terminal**
 
 A execução do script `pathfinder.py` produzirá a seguinte saída:
 
-```python
+```
 --- PathFinder A* Iniciado (com Diagonais e Pesos) ---
 
 S 0 1 0 0
