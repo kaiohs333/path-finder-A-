@@ -210,7 +210,7 @@ python pathfinder.py
 
 ### 📊 Exemplo de Entrada e Saída
  
-Esta secção ilustra o funcionamento do projeto 11usando o labirinto definido em` pathfinder.py`, que inclui terreno difícil (custo 5)
+Esta secção ilustra o funcionamento do projeto usando o labirinto definido em` pathfinder.py`, que inclui terreno difícil (custo 5)
 
 #### **Entrada:**
 
@@ -262,6 +262,7 @@ Este projeto vai além dos requisitos básicos e implementa com sucesso dois dos
 
 
 2. **Pesos de Terreno**: O labirinto suporta células com custos de movimento variados (terrenos difíceis). O custo final de um passo é `custo_movimento * custo_terreno`.
+
 
 
 
