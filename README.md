@@ -16,13 +16,6 @@ Trabalho desenvolvido para a disciplina **Fundamentos de Projetos e Análise de 
 ## 👨‍🏫 Professor
 - [João Paulo Carneiro Aramuni](https://github.com/joaopauloaramuni)
 
-## 📚 Sumário
-1. [Objetivo](#-objetivo)
-2. [O que é o Algoritmo A*](#-o-que-é-o-algoritmo-a)
-3. [Como Executar o Projeto](#-como-executar-o-projeto)
-4. [Exemplo de Entrada e Saída](#-exemplo-de-entrada-e-saída)
-5. [Funcionalidades Extras](#-funcionalidades-extras-implementadas)
-
 ---
 
 ## 🎯 Objetivo
@@ -263,5 +256,6 @@ Este projeto vai além dos requisitos básicos e implementa com sucesso dois dos
 
 
 2. **Pesos de Terreno**: O labirinto suporta células com custos de movimento variados (terrenos difíceis). O custo final de um passo é `custo_movimento * custo_terreno`.
+
 
 
