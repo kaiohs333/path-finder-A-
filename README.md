@@ -258,10 +258,12 @@ S 0 * * *
 
 Este projeto vai além dos requisitos básicos e implementa com sucesso dois dos pontos extras sugeridos:
 
-1. **Movimento Diagonal**: O robô pode mover-se em 8 direções. O custo do movimento diagonal é $\sqrt{2}$, enquanto o reto é 1.
+1.  **Movimento Diagonal:** O robô pode mover-se em 8 direções. O custo do movimento diagonal é $\sqrt{2}$, enquanto o reto é 1.
+2.  **Pesos de Terreno:** O labirinto suporta células com custos de movimento variados (terrenos difíceis).
+3.  **Interface Gráfica:** Foi implementada uma visualização gráfica simples para exibir o labirinto, o processo de busca e o caminho final encontrado, como demonstrado abaixo:
 
+![Visualização Gráfica do A* PathFinder](img/PathFinder.jpg)
 
-2. **Pesos de Terreno**: O labirinto suporta células com custos de movimento variados (terrenos difíceis). O custo final de um passo é `custo_movimento * custo_terreno`.
 
 
 
