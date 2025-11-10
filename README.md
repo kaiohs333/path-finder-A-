@@ -186,6 +186,12 @@ O bloco if `__name__ == "__main__"`: é o ponto de entrada do script:
 
 5. `display_maze_with_path` exibe o labirinto final com o caminho destacado.
 
+## 🧰 Requisitos
+
+- Python 3.10 ou superior
+- Biblioteca padrão (`math`, `heapq`)
+- Terminal compatível com UTF-8
+
 ## 🚀 Como executar o projeto
 
 1. Guarde o código do seu grupo num ficheiro chamado pathfinder.py.
@@ -213,7 +219,7 @@ O labirinto é definido internamente no código:
 labirinto_exemplo = [
     ['S', 0, 1, 0, 0],
     [0, 0, 1, 0, 1],
-    [1, 5, 5, 5, 0], # Terreno difícil (custo 5)
+    [1, 5, 5, 5, 0],
     [1, 0, 0, 'E', 1]
 ]
 ```
@@ -256,6 +262,7 @@ Este projeto vai além dos requisitos básicos e implementa com sucesso dois dos
 
 
 2. **Pesos de Terreno**: O labirinto suporta células com custos de movimento variados (terrenos difíceis). O custo final de um passo é `custo_movimento * custo_terreno`.
+
 
 
 
