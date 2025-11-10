@@ -1,16 +1,29 @@
-# Implementação do Algoritmo A* (A-Star) para Pathfinding em Labirintos 2D
+# 🧭 Algoritmo A* (A-Star) — Pathfinding em Labirintos 2D
 
-**Trabalho em Grupo 1 da disciplina de Fundamentos de Projetos e Análise de Algoritmos.**
+![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
+![Status](https://img.shields.io/badge/status-completo-success.svg)
 
-## Integrantes: 
+Implementação acadêmica do algoritmo **A\*** para encontrar o caminho mais curto em um labirinto 2D, considerando **movimento diagonal** e **custos de terreno**.  
+Trabalho desenvolvido para a disciplina **Fundamentos de Projetos e Análise de Algoritmos**.
 
-* [Gabriel Lucas Tinoco de Aguiar](https://github.com/gabrieltinoco)
-* [Kaio Henrique Oliveira da Silveira Barbosa](https://github.com/kaiohs333)
-* [Maximiliano Augusto de Jesus Junior](https://github.com/MaxJunior2002)
+---
 
-## Professor:
+## 👥 Integrantes
+- [Gabriel Lucas Tinoco de Aguiar](https://github.com/gabrieltinoco)  
+- [Kaio Henrique Oliveira da Silveira Barbosa](https://github.com/kaiohs333)  
+- [Maximiliano Augusto de Jesus Junior](https://github.com/MaxJunior2002)
 
-* [João Paulo Carneiro Aramuni](https://github.com/joaopauloaramuni)
+## 👨‍🏫 Professor
+- [João Paulo Carneiro Aramuni](https://github.com/joaopauloaramuni)
+
+## 📚 Sumário
+1. [Objetivo](#-objetivo)
+2. [O que é o Algoritmo A*](#-o-que-é-o-algoritmo-a)
+3. [Como Executar o Projeto](#-como-executar-o-projeto)
+4. [Exemplo de Entrada e Saída](#-exemplo-de-entrada-e-saída)
+5. [Funcionalidades Extras](#-funcionalidades-extras-implementadas)
+
+---
 
 ## 🎯 Objetivo
 
@@ -250,4 +263,5 @@ Este projeto vai além dos requisitos básicos e implementa com sucesso dois dos
 
 
 2. **Pesos de Terreno**: O labirinto suporta células com custos de movimento variados (terrenos difíceis). O custo final de um passo é `custo_movimento * custo_terreno`.
+
 
