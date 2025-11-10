@@ -200,7 +200,7 @@ python pathfinder.py
  
 Esta secção ilustra o funcionamento do projeto 11usando o labirinto definido em` pathfinder.py`, que inclui terreno difícil (custo 5)
 
-#### **Entrada**
+#### **Entrada:**
 
 O labirinto é definido internamente no código:
 ```Python
@@ -212,7 +212,7 @@ labirinto_exemplo = [
 ]
 ```
 
-#### **Saída no Terminal**
+#### **Saída no Terminal:**
 
 A execução do script `pathfinder.py` produzirá a seguinte saída:
 
@@ -247,5 +247,6 @@ S 0 * * *
 Este projeto vai além dos requisitos básicos e implementa com sucesso dois dos pontos extras sugeridos:
 
 1. **Movimento Diagonal**: O robô pode mover-se em 8 direções. O custo do movimento diagonal é $\sqrt{2}$, enquanto o reto é 1.
+
 
 2. **Pesos de Terreno**: O labirinto suporta células com custos de movimento variados (terrenos difíceis). O custo final de um passo é `custo_movimento * custo_terreno`.
