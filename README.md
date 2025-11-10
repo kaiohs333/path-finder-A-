@@ -1,6 +1,6 @@
 # Implementação do Algoritmo A* (A-Star) para Pathfinding em Labirintos 2D
 
-## **Trabalho em Grupo 1 da disciplina de Fundamentos de Projetos e Análise de Algoritmos.**
+**Trabalho em Grupo 1 da disciplina de Fundamentos de Projetos e Análise de Algoritmos.**
 
 ## Integrantes: 
 
@@ -28,7 +28,7 @@ O algoritmo prioriza nós com o menor valor de **f(n)**, onde:
 
 $$f(n) = g(n) + h(n)$$
 
-Isso permite que o A* explore caminhos que *parecem* promissores (baixo h-score) sem se afastar muito de um caminho que já se provou eficiente (baixo g-score).
+Isso permite que o A* explore caminhos que *parecem* promissores (baixo `h-score`) sem se afastar muito de um caminho que já se provou eficiente (baixo `g-score`).
 
 ## 🧭 Explicação do Algoritmo Implementado
 
@@ -250,3 +250,4 @@ Este projeto vai além dos requisitos básicos e implementa com sucesso dois dos
 
 
 2. **Pesos de Terreno**: O labirinto suporta células com custos de movimento variados (terrenos difíceis). O custo final de um passo é `custo_movimento * custo_terreno`.
+
